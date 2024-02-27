@@ -3,27 +3,82 @@ import {
   ChevronRight,
   Search,
   MessageCircleQuestion,
+  MenuIcon,
+  X,
 } from 'lucide-react'
 
-import React from 'react'
+import React, { useState } from 'react'
 
 import logo from '../assets/logo.png'
 import { Profile } from '../components/profile'
+import { Link } from 'react-router-dom'
+import clsx from 'clsx'
+
+const navLinks = [
+  { label: 'Home', href: '#' },
+  { label: 'Dashboard', href: '#' },
+  { label: 'About', href: '#' },
+  { label: 'Profile', href: '#' },
+]
 
 export const Dashboard = () => {
+  const [isSideMenuOpen, setIsMenuOpen] = useState(false)
   return (
     <div className="grid grid-rows-[auto,auto] h-screen w-full">
       <div className="bg-gradient-to-r to-[#6292FD] from-[#5062F2] w-full py-4  text-white px-4">
         <div className="mx-auto max-w-6xl w-full flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <div className="flex justify-center space-x-2">
+              <MenuIcon
+                className="text-3xl cursor-pointer lg:hidden"
+                onClick={() => {
+                  setIsMenuOpen(true)
+                }}
+              />
               <img src={logo} alt="" className="h-6" />
               <div className=" border-l border-white" />
               <span>HelpCenter</span>
+              {/* sidebar mobile */}
+              <div
+                className={clsx(
+                  'fixed h-full w-screen lg:hidden bg-black/50 backdrop-blur-sm top-0 right-0 -translate-x-full duration-1000 ',
+                  isSideMenuOpen && 'translate-x-0',
+                )}
+              >
+                <section className="text-black bg-slate-50 flex flex-col absolute p-8 left-0 top-0 h-screen gap-4 z-50 rounded-r-lg ">
+                  <X
+                    className="mt-0 mb-8 text-3xl cursor-pointer"
+                    onClick={() => setIsMenuOpen(false)}
+                  />
+                  <div className="flex flex-col gap-3 ">
+                    {navLinks.map((link, i) => (
+                      <Link
+                        className="font-bold text-slate-800"
+                        key={i}
+                        to={link.href}
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+                </section>
+              </div>
+            </div>
+            <div className="flex gap-3 ">
+              {navLinks.map((link, i) => (
+                <Link
+                  className="hover:text-orange-400 hidden lg:block"
+                  key={i}
+                  to={link.href}
+                >
+                  {link.label}
+                </Link>
+              ))}
             </div>
 
             <Profile />
           </div>
+
           <div className="flex items-center justify-center">
             <p>Como podemos te ajudar?</p>
           </div>

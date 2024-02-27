@@ -3,7 +3,7 @@ import { LogOut } from 'lucide-react'
 
 export function Profile() {
   return (
-    <Popover.Root>
+    <Popover.Root className="">
       <Popover.Trigger className="">
         <div className="bg-white rounded-xl p-0.5">
           <img
